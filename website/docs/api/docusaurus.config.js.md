@@ -80,6 +80,20 @@ module.exports = {
 
 ## Optional fields
 
+### `noIndex`
+
+- Type: `boolean`
+
+This option adds `<meta name="robots" content="noindex, nofollow">` in pages, to tell search engines to avoid indexing your site (more information [here](https://moz.com/learn/seo/robots-meta-directives)).
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  noIndex: true, // Defaults to `false`
+};
+```
+
 ### `onBrokenLinks`
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
@@ -93,6 +107,14 @@ By default, it throws an error, to ensure you never ship any broken link, but yo
 The broken links detection is only available for a production build (`docusaurus build`).
 
 :::
+
+### `onBrokenMarkdownLinks`
+
+- Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
+
+The behavior of Docusaurus, when it detects any broken markdown link.
+
+By default, it prints a warning, to let you know about your broken markdown link, but you can change this security if needed.
 
 ### `onDuplicateRoutes`
 
@@ -402,3 +424,27 @@ module.exports = {
   titleDelimiter: '🦖', // Defaults to `|`
 };
 ```
+
+### `baseUrlIssueBanner`
+
+- Type: `boolean`
+
+When enabled, will show a banner in case your site can't load its CSS or JavaScript files, which is a very common issue, often related to a wrong `baseUrl` in site config.
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  baseUrlIssueBanner: true, // Defaults to `true`
+};
+```
+
+![baseUrlIssueBanner](/img/baseUrlIssueBanner.png)
+
+:::caution
+
+This banner need to inline CSS / JS.
+
+If you have a strict [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP), you should rather disable it.
+
+:::

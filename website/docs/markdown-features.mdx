@@ -144,7 +144,7 @@ Docusaurus has built-in support for [MDX](https://mdxjs.com/), which allows you 
 
 **Note 1:** While both `.md` and `.mdx` files are parsed using MDX, some of the syntax are treated slightly differently. For the most accurate parsing and better editor support, we recommend using the `.mdx` extension for files containing MDX syntax. Let's rename the previous file to `greeting.mdx`.
 
-**Note 2:** Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](guides/migrating-from-v1-to-v2.md#convert-style-attributes-to-style-objects-in-mdx).
+**Note 2:** Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](migration/migration-manual.md#convert-style-attributes-to-style-objects-in-mdx).
 
 Try this block here:
 
@@ -296,9 +296,15 @@ And you will get the following:
   <TabItem value="banana">This is a banana 🍌</TabItem>
 </Tabs>
 
+:::info
+
+By default, tabs are rendered eagerly, but it is possible to load them lazily by passing the `lazy` prop to the `Tabs` component.
+
+:::
+
 ### Syncing tab choices
 
-You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId` prop. Note that doing this will persist the choice in `localStorage` and all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed. Not that `groupID` are globally-namespaced.
+You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId` prop. Note that doing this will persist the choice in `localStorage` and all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed. Note that `groupID` are globally-namespaced.
 
 ```jsx {2,14}
 <Tabs
@@ -429,6 +435,96 @@ Tab choices with different `groupId`s will not interfere with each other:
   <TabItem value="win">Windows is windows.</TabItem>
   <TabItem value="unix">Unix is unix.</TabItem>
 </Tabs>
+
+### Customizing tabs
+
+You might want to customize the appearance of certain set of tabs. To do that you can pass the string in `className` prop and the specified CSS class will be added to the `Tabs` component:
+
+```jsx {5}
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  className="unique-tabs"
+  defaultValue="apple"
+  values={[
+    {label: 'Apple', value: 'apple'},
+    {label: 'Orange', value: 'orange'},
+    {label: 'Banana', value: 'banana'},
+  ]}>
+  <TabItem value="apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana">This is a banana 🍌</TabItem>
+</Tabs>;
+```
+
+<Tabs
+  className="unique-tabs"
+  defaultValue="apple"
+  values={[
+    {label: 'Apple', value: 'apple'},
+    {label: 'Orange', value: 'orange'},
+    {label: 'Banana', value: 'banana'},
+  ]}>
+  <TabItem value="apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+## Inline table of contents
+
+Each markdown document displays a tab of content on the top-right corner.
+
+But it is also possible to display an inline table of contents directly inside a markdown document, thanks to MDX.
+
+### Full table of contents
+
+The `toc` variable is available in any MDX document, and contain all the top level headings of a MDX document.
+
+```jsx
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline toc={toc} />;
+```
+
+import TOCInline from '@theme/TOCInline';
+
+<BrowserWindow>
+
+<TOCInline toc={toc} />
+
+</BrowserWindow>
+
+### Custom table of contents
+
+The `toc` props is just a list of table of contents items:
+
+```ts
+type TOCItem = {
+  value: string;
+  id: string;
+  children: TOCItem[];
+};
+```
+
+You can create this TOC tree manually, or derive a new TOC tree from the `toc` variable:
+
+```jsx
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline
+  toc={
+    // Only show 4th and 5th top-level heading
+    [toc[3], toc[4]]
+  }
+/>;
+```
+
+<BrowserWindow>
+
+<TOCInline toc={[toc[3], toc[4]]} />
+
+</BrowserWindow>
 
 ## Callouts/admonitions
 
@@ -959,11 +1055,14 @@ You can use images in Markdown, or by requiring them and using a JSX image tag:
 ```mdx
 # My Markdown page
 
-<img src={require('./assets/docusaurus-asset-example-banner.png').default} />
+<img
+  src={require('./assets/docusaurus-asset-example-banner.png').default}
+  alt="Example banner"
+/>
 
 or
 
-![](./assets/docusaurus-asset-example-banner.png)
+![Example banner](./assets/docusaurus-asset-example-banner.png)
 ```
 
 The ES imports syntax also works:
@@ -973,12 +1072,12 @@ The ES imports syntax also works:
 
 import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 
-<img src={myImageUrl)}/>
+<img src={myImageUrl)} alt="My image alternative text" />
 ```
 
 This results in displaying the image:
 
-![](./assets/docusaurus-asset-example-banner.png)
+![My image alternative text](./assets/docusaurus-asset-example-banner.png)
 
 :::note
 
@@ -1016,7 +1115,7 @@ or
 
 Docusaurus supports inlining SVGs out of the box.
 
-```js
+```jsx
 import DocusaurusSvg from './docusaurus.svg';
 
 <DocusaurusSvg />;
@@ -1025,3 +1124,50 @@ import DocusaurusSvg from './docusaurus.svg';
 import DocusaurusSvg from '@site/static/img/docusaurus.svg';
 
 <DocusaurusSvg />
+
+This can be useful, if you want to alter the part of the SVG image via CSS. For example, you can change one of the SVG colors based on the current theme.
+
+```jsx
+import DocusaurusSvg from './docusaurus.svg';
+
+<DocusaurusSvg className="themedDocusaurus" />;
+```
+
+```css
+html[data-theme='light'] .themedDocusaurus [fill='#FFFF50'] {
+  fill: greenyellow;
+}
+
+html[data-theme='dark'] .themedDocusaurus [fill='#FFFF50'] {
+  fill: seagreen;
+}
+```
+
+<DocusaurusSvg className="themedDocusaurus" />
+
+### Themed Images
+
+Docusaurus supports themed images: the `ThemedImage` component (included in the classic/bootstrap themes) allows you to switch the image source based on the current theme.
+
+```jsx {5-8}
+import ThemedImage from '@theme/ThemedImage';
+
+<ThemedImage
+  alt="Docusaurus themed image"
+  sources={{
+    light: useBaseUrl('img/docusaurus_light.svg'),
+    dark: useBaseUrl('img/docusaurus_dark.svg'),
+  }}
+/>;
+```
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import ThemedImage from '@theme/ThemedImage';
+
+<ThemedImage
+  alt="Docusaurus themed image"
+  sources={{
+    light: useBaseUrl('img/docusaurus_keytar.svg'),
+    dark: useBaseUrl('img/docusaurus_speed.svg'),
+  }}
+/>

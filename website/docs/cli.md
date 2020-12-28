@@ -20,22 +20,15 @@ Once your website is bootstrapped, the website source will contain the Docusauru
 }
 ```
 
+## Index
+
+import TOCInline from "@theme/TOCInline"
+
+<TOCInline toc={toc[1].children}/>
+
 ## Docusaurus CLI commands
 
 Below is a list of Docusaurus CLI commands and their usages:
-
-<!-- TODO: init docs after the init command is implemented
-
-### `docusaurus init`
-
-The `docusaurus init` command is intended to be used with `docusaurus` installed globally:
-
-```shell
-$ yarn global add docusaurus
-# or
-$ npm install --global docusaurus
-```
--->
 
 ### `docusaurus start`
 
@@ -49,13 +42,29 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
 | `--hot-only` | `false` | Enables Hot Module Replacement without page refresh as fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly). |
 | `--no-open` | `false` | Do not open automatically the page in the browser. |
-| `--poll` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
+| `--poll [optionalIntervalMs]` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
 
 :::important
 
 Please note that some functionality (for example, anchor links) will not work in development. The functionality will work as expected in production.
 
 :::
+
+#### Enabling HTTPS`
+
+There are multiple ways to obtain a certificate. We will use [mkcert](https://github.com/FiloSottile/mkcert) as an example.
+
+1. Run `mkcert localhost` to generate `localhost.pem` + `localhost-key.pem`
+
+2. Run `mkcert -install` to install the cert in your trust store, and restart your browser
+
+3. Start the app with Docusaurus HTTPS env variables:
+
+```shell
+HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem yarn start
+```
+
+4. Open `https://localhost:3000/`
 
 ### `docusaurus build`
 
@@ -68,6 +77,12 @@ Compiles your site for production.
 | `--bundle-analyzer` | `false` | Analyze your bundle with the [webpack bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
 | `--no-minify` | `false` | Build website without minimizing JS/CSS bundles. |
+
+:::info
+
+For advanced minification of CSS bundle, we use the [advanced cssnano preset](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-advanced) (along with additional several PostCSS plugins) and [level 2 optimization of clean-css](https://github.com/jakubpawlowicz/clean-css#level-2-optimizations). If as a result of this advanced CSS minification you find broken CSS, build your website with the environment variable `USE_SIMPLE_CSS_MINIFIER=true` to minify CSS with the [default cssnano preset](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-default). **Please [fill out an issue](https://github.com/facebook/docusaurus/issues/new?labels=bug%2C+needs+triage&template=bug.md) if you experience CSS minification bugs.**
+
+:::
 
 ### `docusaurus swizzle`
 
@@ -108,7 +123,7 @@ To learn more about swizzling, check [here](#).
 
 ### `docusaurus deploy`
 
-Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the docs on [deployment](deployment.md/#deploying-to-github-pages) for more details.
+Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the docs on [deployment](deployment.mdx#deploying-to-github-pages) for more details.
 
 #### Options
 

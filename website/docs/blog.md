@@ -89,11 +89,11 @@ Or this.
 
 ## Feed
 
-You can generate RSS/ Atom feed by passing feedOptions.
+You can generate RSS/Atom feed by passing feedOptions. By default, RSS and Atom feeds are generated. To disable feed generation, set `feedOptions.type` to `null`.
 
 ```ts
 feedOptions?: {
-  type: 'rss' | 'atom' | 'all';
+  type?: 'rss' | 'atom' | 'all' | null;
   title?: string;
   description?: string;
   copyright: string;
@@ -149,6 +149,7 @@ module.exports = {
     [
       '@docusaurus/preset-classic',
       {
+        docs: false,
         blog: {
           path: './blog',
           routeBasePath: '/', // Set this value to '/'.
@@ -175,6 +176,7 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         blog: {
+          blogTitle: 'Docusaurus blog!',
           blogDescription: 'A docusaurus powered blog!',
         },
       },

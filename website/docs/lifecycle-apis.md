@@ -21,15 +21,15 @@ Return validated and normalized options for the plugin. This method is called be
 
 ### `validate`
 
-`validateOptions` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/@hapi/joi)** schema and options as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
+`validateOptions` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and options as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
 
 :::tip
 
-[Joi](https://www.npmjs.com/package/@hapi/joi) is recommended for validation and normalization of options.
+[Joi](https://www.npmjs.com/package/joi) is recommended for validation and normalization of options.
 
 :::
 
-If you don't use **[Joi](https://www.npmjs.com/package/@hapi/joi)** for validation you can throw an Error in case of invalid options and return options in case of success.
+If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options and return options in case of success.
 
 ```js {8-11} title="my-plugin/src/index.js"
 module.exports = function (context, options) {
@@ -71,15 +71,15 @@ Return validated and normalized configuration for the theme.
 
 ### `validate`
 
-`validateThemeConfig` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/@hapi/joi)** schema and `themeConfig` as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
+`validateThemeConfig` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and `themeConfig` as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
 
 :::tip
 
-[Joi](https://www.npmjs.com/package/@hapi/joi) is recommended for validation and normalization of theme config.
+[Joi](https://www.npmjs.com/package/joi) is recommended for validation and normalization of theme config.
 
 :::
 
-If you don't use **[Joi](https://www.npmjs.com/package/@hapi/joi)** for validation you can throw an Error in case of invalid options.
+If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options.
 
 ```js {8-11} title="my-theme/src/index.js"
 module.exports = function (context, options) {
@@ -299,10 +299,11 @@ You may use them to return your webpack configures conditionally.
 
 For example, this plugin below modify the webpack config to transpile `.foo` file.
 
-```js {4-11} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'custom-docusaurus-plugin',
+    // highlight-start
     configureWebpack(config, isServer, utils) {
       const {getCacheLoader} = utils;
       return {
@@ -316,6 +317,7 @@ module.exports = function (context, options) {
         },
       };
     },
+    // highlight-end
   };
 };
 ```
@@ -326,14 +328,16 @@ We merge the Webpack configuration parts of plugins into the global Webpack conf
 
 It is possible to specify the merge strategy. For example, if you want a webpack rule to be prepended instead of appended:
 
-```js {4-11} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'custom-docusaurus-plugin',
     configureWebpack(config, isServer, utils) {
       return {
+        // highlight-start
         mergeStrategy: {'module.rules': 'prepend'},
         module: {rules: [myRuleToPrepend]},
+        // highlight-end
       };
     },
   };
@@ -433,10 +437,11 @@ interface HtmlTagObject {
 
 Example:
 
-```js {4-28} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
+    // highlight-start
     injectHtmlTags() {
       return {
         headTags: [
@@ -460,6 +465,7 @@ module.exports = function (context, options) {
         postBodyTags: [`<div> This is post body </div>`],
       };
     },
+    // highlight-end
   };
 };
 ```
