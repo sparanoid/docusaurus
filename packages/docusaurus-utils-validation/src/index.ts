@@ -6,7 +6,7 @@
  */
 
 // /!\ don't remove this export, as we recommend plugin authors to use it
-export {default as Joi} from 'joi';
+export {default as Joi} from './Joi';
 
 export * from './validationUtils';
 export * from './validationSchemas';
