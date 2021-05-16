@@ -1,18 +1,17 @@
 ---
 id: git
 title: i18n - Using git
-sidebar_label: Using Git
 slug: /i18n/git
 ---
 
 A **possible translation strategy** is to **version control the translation files** to Git (or any other [VCS](https://en.wikipedia.org/wiki/Version_control)).
 
-## Tradeoffs
+## Tradeoffs {#tradeoffs}
 
 This strategy has advantages:
 
 - **Easy to get started**: just add the `i18n` folder to Git
-- **Easy for developers**: Git, GitHub and pull-requests are mainstream developer tools
+- **Easy for developers**: Git, GitHub and pull requests are mainstream developer tools
 - **Free** (or without any additional cost, assuming you already use Git)
 - **Low friction**: does not require signing-up to an external tool
 - **Rewarding**: contributors are happy to have a nice contribution history
@@ -25,17 +24,17 @@ Using Git also present some shortcomings:
 
 :::note
 
-Some **large-scale technical projects** (ReactJS, VueJS, Gatsby, TypeScript, Nuxt...) use Git for translations.
+Some **large-scale technical projects** (React, Vue.js, MDN, TypeScript, Nuxt.js, etc.) use Git for translations.
 
 Refer to the [Docusaurus i18n RFC](https://github.com/facebook/docusaurus/issues/3317) for our notes and links studying these systems.
 
 :::
 
-## Git tutorial
+## Git tutorial {#git-tutorial}
 
 This is a walk-through of using Git to translate a newly initialized English Docusaurus website into French, and assume you already followed the [i18n tutorial](./i18n-tutorial.md).
 
-### Prepare the Docusaurus site
+### Prepare the Docusaurus site {#prepare-the-docusaurus-site}
 
 Initialize a new Docusaurus site:
 
@@ -69,7 +68,7 @@ module.exports = {
 
 Translate the homepage:
 
-```jsx title="src/index.js"
+```jsx title="src/pages/index.js"
 import React from 'react';
 import Translate from '@docusaurus/Translate';
 import Layout from '@theme/Layout';
@@ -87,7 +86,7 @@ export default function Home() {
 }
 ```
 
-### Initialize the `i18n` folder
+### Initialize the `i18n` folder {#initialize-the-i18n-folder}
 
 Use the [write-translations](../cli.md#docusaurus-write-translations) CLI command to initialize the JSON translation files for the French locale:
 
@@ -118,13 +117,13 @@ mkdir -p i18n/fr/docusaurus-plugin-content-blog
 cp -r blog/** i18n/fr/docusaurus-plugin-content-blog
 
 mkdir -p i18n/fr/docusaurus-plugin-content-pages
-cp -r pages/**.md i18n/fr/docusaurus-plugin-content-pages
-cp -r pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/**.md i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
 ```
 
 Add all these files to Git.
 
-### Translate the files
+### Translate the files {#translate-the-files}
 
 Translate the Markdown and JSON files in `i18n/fr` and commit the translation.
 
@@ -142,21 +141,21 @@ npm run build
 npm run build -- --locale fr
 ```
 
-### Repeat
+### Repeat {#repeat}
 
 Follow the same process for each locale you need to support.
 
-## Maintain the translations
+## Maintain the translations {#maintain-the-translations}
 
 Keeping translated files **consistent** with the originals **can be challenging**, in particular for Markdown documents.
 
-### Markdown translations
+### Markdown translations {#markdown-translations}
 
 When an untranslated Markdown document is edited, it is **your responsibility to maintain the respective translated files**, and we unfortunately don't have a good way to help you do so.
 
 To keep your translated sites consistent, when the `website/docs/doc1.md` doc is edited, you need **backport these edits** to `i18n/fr/docusaurus-plugin-content-docs/current/doc1.md`.
 
-### JSON translations
+### JSON translations {#json-translations}
 
 To help you maintain the JSON translation files, it is possible to run again the [write-translations](../cli.md#docusaurus-write-translations) CLI command:
 
@@ -172,7 +171,7 @@ Reset your translations with the `--override` option.
 
 :::
 
-### Localize edit urls
+### Localize edit urls {#localize-edit-urls}
 
 When the user is browsing a page at `/fr/doc1`, the edit button will link by default to the unlocalized doc at `website/docs/doc1.md`.
 

@@ -4,7 +4,7 @@ title: Versioned sites
 slug: /migration/versioned-sites
 ---
 
-Read up https://v2.docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for problems in v1's approach.
+Read up https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for problems in v1's approach.
 
 :::note
 
@@ -12,7 +12,7 @@ The versioned docs should normally be migrated correctly by the [migration CLI](
 
 :::
 
-## Migrate your `versioned_docs` front matter
+## Migrate your `versioned_docs` front matter {#migrate-your-versioned_docs-front-matter}
 
 Unlike v1, The markdown header for each versioned doc is no longer altered by using `version-${version}-${original_id}` as the value for the actual id field. See scenario below for better explanation.
 
@@ -64,7 +64,7 @@ title: Hello, World !
 Hi, Endilie here :)
 ```
 
-## Migrate your `versioned_sidebars`
+## Migrate your `versioned_sidebars` {#migrate-your-versioned_sidebars}
 
 - Refer to `versioned_docs` id as `version-${version}/${id}` (v2) instead of `version-${version}-${original_id}` (v1).
 
@@ -114,9 +114,9 @@ Example `versioned_sidebars/version-1.0.0-sidebars.json`:
 }
 ```
 
-## Populate your `versioned_sidebars` and `versioned_docs`
+## Populate your `versioned_sidebars` and `versioned_docs` {#populate-your-versioned_sidebars-and-versioned_docs}
 
-In v2, we use snapshot approach for documentation versioning. **Every versioned docs does not depends on other version**. It is possible to have `foo.md` in `version-1.0.0` but it doesn't exist in `version-1.2.0`. This is not possible in previous version due to Docusaurus v1 fallback functionality (https://docusaurus.io/docs/en/versioning#fallback-functionality).
+In v2, we use snapshot approach for documentation versioning. **Every versioned docs does not depends on other version**. It is possible to have `foo.md` in `version-1.0.0` but it doesn't exist in `version-1.2.0`. This is not possible in previous version due to Docusaurus v1 fallback functionality (https://v1.docusaurus.io/docs/en/versioning#fallback-functionality).
 
 For example, if your `versions.json` looks like this in v1
 
@@ -157,7 +157,7 @@ website
 │   └── version-1.0.0-sidebars.json
 ```
 
-## Convert style attributes to style objects in MDX
+## Convert style attributes to style objects in MDX {#convert-style-attributes-to-style-objects-in-mdx}
 
 Docusaurus 2 uses JSX for doc files. If you have any style attributes in your Docusaurus 1 docs, convert them to style objects, like this:
 

@@ -4,9 +4,9 @@ title: '📦 plugin-google-analytics'
 slug: '/api/plugins/@docusaurus/plugin-google-analytics'
 ---
 
-The default [Google Analytics](https://developers.google.com/analytics/devguides/collection/analyticsjs/) plugin. It is a JavaScript library for measuring how users interact with your website.
+The default [Google Analytics](https://developers.google.com/analytics/devguides/collection/analyticsjs/) plugin. It is a JavaScript library for measuring how users interact with your website **in the production build**. If you are using Google Analytics 4 you might need to consider using [plugin-google-gtag](./plugin-google-gtag) instead.
 
-## Installation
+## Installation {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-google-analytics
@@ -18,7 +18,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 :::
 
-## Configuration
+## Configuration {#configuration}
 
 ```js title="docusaurus.config.js"
 module.exports = {

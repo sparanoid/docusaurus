@@ -10,13 +10,13 @@ Docusaurus' own `@docusaurus/preset-classic` supports a search integration.
 
 There are two main options, you can use [Algolia DocSearch](https://docsearch.algolia.com) or bring in your own `SearchBar` component.
 
-## Using Algolia DocSearch
+## Using Algolia DocSearch {#using-algolia-docsearch}
 
 Algolia DocSearch works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API. Note that your website needs to be publicly available for this to work (i.e., not behind a firewall). The service is free.
 
 If your website is [not eligible](https://docsearch.algolia.com/docs/who-can-apply) for the free, hosted version of DocSearch, or if your website sits behind a firewall, then you can [run your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler. For best results, you may want to use a config file based on the [Docusaurus 2 config](https://github.com/algolia/docsearch-configs/blob/master/configs/docusaurus-2.json).
 
-### Connecting Algolia
+### Connecting Algolia {#connecting-algolia}
 
 To connect your docs with Algolia, add an `algolia` field in your `themeConfig`. **[Apply for DocSearch](https://docsearch.algolia.com/apply/)** to get your Algolia index and API key.
 
@@ -30,8 +30,11 @@ module.exports = {
       apiKey: 'YOUR_API_KEY',
       indexName: 'YOUR_INDEX_NAME',
 
-      // Optional: see doc section bellow
+      // Optional: see doc section below
       contextualSearch: true,
+
+      // Optional: see doc section below
+      appId: 'YOUR_APP_ID',
 
       // Optional: Algolia search parameters
       searchParameters: {},
@@ -49,7 +52,7 @@ The `searchParameters` option used to be named `algoliaOptions` in Docusaurus v1
 
 :::
 
-### Contextual search
+### Contextual search {#contextual-search}
 
 Contextual search is mostly useful for versioned Docusaurus sites.
 
@@ -80,7 +83,25 @@ When using `contextualSearch: true`, the contextual facet filters will be merged
 
 :::
 
-### Styling your Algolia search
+### Custom Application ID {#custom-application-id}
+
+When [running your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler, it is [required to set the `appId` configuration key](https://docsearch.algolia.com/docs/behavior/#appid) to your own Application ID. If left unset, the `appId` will fallback to the one used with the free, hosted version of Algolia DocSearch.
+
+```jsx title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    // ...
+    // highlight-start
+    algolia: {
+      appId: 'YOUR_APP_ID',
+    },
+    // highlight-end
+  },
+};
+```
+
+### Styling your Algolia search {#styling-your-algolia-search}
 
 By default, DocSearch comes with a fine-tuned theme that was designed for accessibility, making sure that colors and contrasts respect standards.
 
@@ -128,7 +149,7 @@ html[data-theme='dark'] .DocSearch {
 }
 ```
 
-### Customizing the Algolia search behavior
+### Customizing the Algolia search behavior {#customizing-the-algolia-search-behavior}
 
 <!-- TODO: update options link once the documentation is available on the DocSearch website -->
 
@@ -147,7 +168,7 @@ module.exports = {
 };
 ```
 
-### Editing the Algolia search component
+### Editing the Algolia search component {#editing-the-algolia-search-component}
 
 If you prefer to edit the Algolia search React component, swizzle the `SearchBar` component in `@docusaurus/theme-search-algolia`:
 
@@ -155,7 +176,7 @@ If you prefer to edit the Algolia search React component, swizzle the `SearchBar
 npm run swizzle @docusaurus/theme-search-algolia SearchBar
 ```
 
-## Using your own search
+## Using your own search {#using-your-own-search}
 
 To use your own search, swizzle the `SearchBar` component in `@docusaurus/theme-classic`
 
