@@ -27,7 +27,7 @@ A Docusaurus site is statically rendered, and it can generally work without Java
 
 It is important to test your build locally before deploying to production.
 
-Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command for that:
+Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve-sitedir) command for that:
 
 ```bash npm2yarn
 npm run serve
@@ -51,7 +51,7 @@ Use [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-gui
 
 ## Self-Hosting {#self-hosting}
 
-Docusaurus can be self-hosted using [`docusaurus serve`](cli.md#docusaurus-serve). Change port using `--port` and `--host` to change host.
+Docusaurus can be self-hosted using [`docusaurus serve`](cli.md#docusaurus-serve-sitedir). Change port using `--port` and `--host` to change host.
 
 ```bash npm2yarn
 npm run serve -- --build --port 80 --host 0.0.0.0
@@ -90,7 +90,7 @@ You may refer to GitHub Pages' documentation [User, Organization, and Project Pa
 
 :::caution
 
-GitHub Pages adds a trailing slash to Docusaurus URLs by default. Adjusting the `trailingSlash` setting can be useful.
+GitHub Pages adds a trailing slash to Docusaurus URLs by default. It is recommended to set a `trailingSlash` config (`true` or `false`, not `undefined`).
 
 :::
 
@@ -185,7 +185,7 @@ This workflow assumes your documentation resided in `documentation` branch of yo
 1. Copy key to clipboard with `xclip -sel clip < ~/.ssh/id_rsa.pub` and paste it as a [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) in your repository. Copy file content if the command line doesn't work for you. Check the box for `Allow write access` before saving your deployment key.
 1. You'll need your private key as a [GitHub secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) to allow Docusaurus to run the deployment for you.
 1. Copy your private key with `xclip -sel clip < ~/.ssh/id_rsa` and paste a GitHub secret with name `GH_PAGES_DEPLOY`. Copy file content if the command line doesn't work for you. Save your secret.
-1. Create you [documentation workflow file](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file) in `.github/workflows/`. In this example it's `documentation.yml`.
+1. Create your [documentation workflow file](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file) in `.github/workflows/`. In this example it's `documentation.yml`.
 
 :::warning
 
@@ -280,6 +280,28 @@ script:
 ```
 
 Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
+
+### Triggering deployment with Buddy {#triggering-deployment-with-buddy}
+
+[Buddy](https://buddy.works/) is an easy-to-use CI/CD tool that allows you to automate the deployment of your portal to different environments, including GitHub Pages.
+
+Follow these steps to create a pipeline that automatically deploys a new version of your website whenever you push changes to the selected branch of your project:
+
+1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/). When creating the token, grant it the `repo` scope so that it has the permissions it needs.
+1. Sign in to your Buddy account and create a new project.
+1. Choose GitHub as your git hosting provider and select the repository with the code of your website.
+1. Using the left navigation panel, switch to the `Pipelines` view.
+1. Create a new pipeline. Define its name, set the trigger mode to `On push`, and select the branch that triggers the pipeline execution.
+1. Add a `Node.js` action.
+1. Add these command in the action's terminal:
+   ```bash
+   GIT_USER=<GH_PERSONAL_ACCESS_TOKEN>
+   git config --global user.email "<YOUR_GH_EMAIL>"
+   git config --global user.name "<YOUR_GH_USERNAME>"
+   yarn deploy
+   ```
+
+After creating this simple pipeline, each new commit pushed to the branch you selected deploys your website to GitHub Pages using `yarn deploy`. Read [this guide](https://buddy.works/guides/react-docusaurus) to learn more about setting up a CI/CD pipeline for Docusaurus.
 
 ### Using Azure Pipelines {#using-azure-pipelines}
 

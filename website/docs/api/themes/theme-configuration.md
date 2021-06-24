@@ -125,7 +125,7 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
 - **Base path**: `website/i18n/<locale>/docusaurus-theme-<themeName>`
 - **Multi-instance path**: N/A
-- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations)
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
 - **Markdown files**: `N/A
 
 ### Example file-system structure {#example-file-system-structure}
@@ -142,7 +142,7 @@ website/i18n/<locale>/docusaurus-theme-classic
 
 ### `useThemeContext` {#usethemecontext}
 
-React hook to access theme context. This context contains functions for setting light and dark mode and boolean property, indicating which mode is currently in use.
+React hook to access theme context. This context contains functions for setting light and dark mode and exposes boolean variable, indicating which mode is currently in use.
 
 Usage example:
 
