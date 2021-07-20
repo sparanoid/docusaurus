@@ -24,37 +24,6 @@ module.exports = {
 };
 ```
 
-### `favicon` {#favicon}
-
-- Type: `string`
-
-URL for site favicon. Example:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  favicon: 'https://docusaurus.io/favicon.ico',
-};
-```
-
-You can also use the favicon URL relative to the `static` directory of your site. For example, your site has the following directory structure:
-
-```bash
-.
-├── README.md
-├ # ... other files in root directory
-└─ static
-    └── img
-        └── favicon.ico
-```
-
-So you can refer it like below:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  favicon: 'img/favicon.ico',
-};
-```
-
 ### `url` {#url}
 
 - Type: `string`
@@ -80,6 +49,38 @@ module.exports = {
 ```
 
 ## Optional fields {#optional-fields}
+
+### `favicon` {#favicon}
+
+- Type: `string | undefined`
+
+Path to your site favicon
+
+Example, if your favicon is in `static/img/favicon.ico`:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  favicon: '/img/favicon.ico',
+};
+```
+
+### `trailingSlash` {#trailing-slash}
+
+- Type: `boolean | undefined`
+
+Allow to customize the presence/absence of a trailing slash at the end of URLs/links, and how static HTML files are generated:
+
+- `undefined` (default): keeps URLs untouched, and emit `/docs/myDoc/index.html` for `/docs/myDoc.md`
+- `true`: add trailing slashes to URLs/links, and emit `/docs/myDoc/index.html` for `/docs/myDoc.md`
+- `false`: remove trailing slashes from URLs/links, and emit `/docs/myDoc.html` for `/docs/myDoc.md`
+
+:::tip
+
+Each static hosting provider serve static files differently (this behavior may even change over time).
+
+Refer to the [deployment guide](../deployment.mdx) and [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-guide) to choose the appropriate setting.
+
+:::
 
 ### `i18n` {#i18n}
 
@@ -406,7 +407,7 @@ module.exports = {
       <%~ metaAttribute %>
     <% }); %>
     <% it.stylesheets.forEach((stylesheet) => { %>
-      <link rel="stylesheet" type="text/css" href="<%= it.baseUrl %><%= stylesheet %>" />
+      <link rel="stylesheet" href="<%= it.baseUrl %><%= stylesheet %>" />
     <% }); %>
     <% it.scripts.forEach((script) => { %>
       <link rel="preload" href="<%= it.baseUrl %><%= script %>" as="script">
@@ -421,7 +422,7 @@ module.exports = {
       <span>Custom markup</span>
     </div>
     <% it.scripts.forEach((script) => { %>
-      <script type="text/javascript" src="<%= it.baseUrl %><%= script %>"></script>
+      <script src="<%= it.baseUrl %><%= script %>"></script>
     <% }); %>
     <%~ it.postBodyTags %>
   </body>
@@ -445,7 +446,6 @@ module.exports = {
     // Object format.
     {
       href: 'http://mydomain.com/style.css',
-      type: 'text/css',
     },
   ],
 };
